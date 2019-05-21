@@ -1,0 +1,70 @@
+﻿@model IEnumerable<PatientsApp.Models.Basic>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Forenames)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SexCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomeTelephoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GpDetail.GpCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NextOfKin.NokName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Forenames)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Surname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOfBirth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SexCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HomeTelephoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GpDetail.GpCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NextOfKin.NokName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PasNumber }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PasNumber }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PasNumber })
+        </td>
+    </tr>
+}
+
+</table>

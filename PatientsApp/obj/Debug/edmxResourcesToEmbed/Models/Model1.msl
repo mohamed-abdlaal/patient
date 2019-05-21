@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PatientsModelStoreContainer" CdmEntityContainer="PatientsEntities">
+    <EntitySetMapping Name="Basics">
+      <EntityTypeMapping TypeName="PatientsModel.Basic">
+        <MappingFragment StoreEntitySet="Basic">
+          <ScalarProperty Name="PasNumber" ColumnName="PasNumber" />
+          <ScalarProperty Name="Forenames" ColumnName="Forenames" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="SexCode" ColumnName="SexCode" />
+          <ScalarProperty Name="HomeTelephoneNumber" ColumnName="HomeTelephoneNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GpDetails">
+      <EntityTypeMapping TypeName="PatientsModel.GpDetail">
+        <MappingFragment StoreEntitySet="GpDetails">
+          <ScalarProperty Name="PatientPasNumber" ColumnName="PatientPasNumber" />
+          <ScalarProperty Name="GpCode" ColumnName="GpCode" />
+          <ScalarProperty Name="GpSurname" ColumnName="GpSurname" />
+          <ScalarProperty Name="GpInitials" ColumnName="GpInitials" />
+          <ScalarProperty Name="GpPhone" ColumnName="GpPhone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NextOfKins">
+      <EntityTypeMapping TypeName="PatientsModel.NextOfKin">
+        <MappingFragment StoreEntitySet="NextOfKin">
+          <ScalarProperty Name="PatientPasNumber" ColumnName="PatientPasNumber" />
+          <ScalarProperty Name="NokName" ColumnName="NokName" />
+          <ScalarProperty Name="NokRelationshipCode" ColumnName="NokRelationshipCode" />
+          <ScalarProperty Name="NokAddressLine1" ColumnName="NokAddressLine1" />
+          <ScalarProperty Name="NokAddressLine2" ColumnName="NokAddressLine2" />
+          <ScalarProperty Name="NokAddressLine3" ColumnName="NokAddressLine3" />
+          <ScalarProperty Name="NokAddressLine4" ColumnName="NokAddressLine4" />
+          <ScalarProperty Name="NokPostcode" ColumnName="NokPostcode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="PatientsModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PatientsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Basic">
+    <Key>
+      <PropertyRef Name="PasNumber" />
+    </Key>
+    <Property Name="PasNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Forenames" Type="nvarchar" MaxLength="50" />
+    <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+    <Property Name="DateOfBirth" Type="date" />
+    <Property Name="SexCode" Type="char" MaxLength="1" />
+    <Property Name="HomeTelephoneNumber" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="GpDetails">
+    <Key>
+      <PropertyRef Name="PatientPasNumber" />
+    </Key>
+    <Property Name="PatientPasNumber" Type="int" Nullable="false" />
+    <Property Name="GpCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="GpSurname" Type="nvarchar" MaxLength="50" />
+    <Property Name="GpInitials" Type="nvarchar" MaxLength="50" />
+    <Property Name="GpPhone" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="NextOfKin">
+    <Key>
+      <PropertyRef Name="PatientPasNumber" />
+    </Key>
+    <Property Name="PatientPasNumber" Type="int" Nullable="false" />
+    <Property Name="NokName" Type="nvarchar" MaxLength="100" />
+    <Property Name="NokRelationshipCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="NokAddressLine1" Type="nvarchar" MaxLength="50" />
+    <Property Name="NokAddressLine2" Type="nvarchar" MaxLength="50" />
+    <Property Name="NokAddressLine3" Type="nvarchar" MaxLength="50" />
+    <Property Name="NokAddressLine4" Type="nvarchar" MaxLength="50" />
+    <Property Name="NokPostcode" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_GpDetails_Basic">
+    <End Role="Basic" Type="Self.Basic" Multiplicity="1" />
+    <End Role="GpDetails" Type="Self.GpDetails" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Basic">
+        <PropertyRef Name="PasNumber" />
+      </Principal>
+      <Dependent Role="GpDetails">
+        <PropertyRef Name="PatientPasNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NextOfKin_Basic">
+    <End Role="Basic" Type="Self.Basic" Multiplicity="1" />
+    <End Role="NextOfKin" Type="Self.NextOfKin" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Basic">
+        <PropertyRef Name="PasNumber" />
+      </Principal>
+      <Dependent Role="NextOfKin">
+        <PropertyRef Name="PatientPasNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PatientsModelStoreContainer">
+    <EntitySet Name="Basic" EntityType="Self.Basic" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GpDetails" EntityType="Self.GpDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NextOfKin" EntityType="Self.NextOfKin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_GpDetails_Basic" Association="Self.FK_GpDetails_Basic">
+      <End Role="Basic" EntitySet="Basic" />
+      <End Role="GpDetails" EntitySet="GpDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NextOfKin_Basic" Association="Self.FK_NextOfKin_Basic">
+      <End Role="Basic" EntitySet="Basic" />
+      <End Role="NextOfKin" EntitySet="NextOfKin" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

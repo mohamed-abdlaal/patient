@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PatientsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Basic">
+          <Key>
+            <PropertyRef Name="PasNumber" />
+          </Key>
+          <Property Name="PasNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Forenames" Type="nvarchar" MaxLength="50" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="SexCode" Type="char" MaxLength="1" />
+          <Property Name="HomeTelephoneNumber" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="GpDetails">
+          <Key>
+            <PropertyRef Name="PatientPasNumber" />
+          </Key>
+          <Property Name="PatientPasNumber" Type="int" Nullable="false" />
+          <Property Name="GpCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="GpSurname" Type="nvarchar" MaxLength="50" />
+          <Property Name="GpInitials" Type="nvarchar" MaxLength="50" />
+          <Property Name="GpPhone" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="NextOfKin">
+          <Key>
+            <PropertyRef Name="PatientPasNumber" />
+          </Key>
+          <Property Name="PatientPasNumber" Type="int" Nullable="false" />
+          <Property Name="NokName" Type="nvarchar" MaxLength="100" />
+          <Property Name="NokRelationshipCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="NokAddressLine1" Type="nvarchar" MaxLength="50" />
+          <Property Name="NokAddressLine2" Type="nvarchar" MaxLength="50" />
+          <Property Name="NokAddressLine3" Type="nvarchar" MaxLength="50" />
+          <Property Name="NokAddressLine4" Type="nvarchar" MaxLength="50" />
+          <Property Name="NokPostcode" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_GpDetails_Basic">
+          <End Role="Basic" Type="Self.Basic" Multiplicity="1" />
+          <End Role="GpDetails" Type="Self.GpDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Basic">
+              <PropertyRef Name="PasNumber" />
+            </Principal>
+            <Dependent Role="GpDetails">
+              <PropertyRef Name="PatientPasNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NextOfKin_Basic">
+          <End Role="Basic" Type="Self.Basic" Multiplicity="1" />
+          <End Role="NextOfKin" Type="Self.NextOfKin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Basic">
+              <PropertyRef Name="PasNumber" />
+            </Principal>
+            <Dependent Role="NextOfKin">
+              <PropertyRef Name="PatientPasNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PatientsModelStoreContainer">
+          <EntitySet Name="Basic" EntityType="Self.Basic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GpDetails" EntityType="Self.GpDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NextOfKin" EntityType="Self.NextOfKin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_GpDetails_Basic" Association="Self.FK_GpDetails_Basic">
+            <End Role="Basic" EntitySet="Basic" />
+            <End Role="GpDetails" EntitySet="GpDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NextOfKin_Basic" Association="Self.FK_NextOfKin_Basic">
+            <End Role="Basic" EntitySet="Basic" />
+            <End Role="NextOfKin" EntitySet="NextOfKin" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PatientsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Basic">
+          <Key>
+            <PropertyRef Name="PasNumber" />
+          </Key>
+          <Property Name="PasNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Forenames" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="SexCode" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="HomeTelephoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GpDetail" Relationship="Self.FK_GpDetails_Basic" FromRole="Basic" ToRole="GpDetails" />
+          <NavigationProperty Name="NextOfKin" Relationship="Self.FK_NextOfKin_Basic" FromRole="Basic" ToRole="NextOfKin" />
+        </EntityType>
+        <EntityType Name="GpDetail">
+          <Key>
+            <PropertyRef Name="PatientPasNumber" />
+          </Key>
+          <Property Name="PatientPasNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GpCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GpSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GpInitials" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GpPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Basic" Relationship="Self.FK_GpDetails_Basic" FromRole="GpDetails" ToRole="Basic" />
+        </EntityType>
+        <EntityType Name="NextOfKin">
+          <Key>
+            <PropertyRef Name="PatientPasNumber" />
+          </Key>
+          <Property Name="PatientPasNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NokName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NokRelationshipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NokAddressLine1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NokAddressLine2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NokAddressLine3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NokAddressLine4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NokPostcode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Basic" Relationship="Self.FK_NextOfKin_Basic" FromRole="NextOfKin" ToRole="Basic" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_GpDetails_Basic">
+          <End Role="Basic" Type="Self.Basic" Multiplicity="1" />
+          <End Role="GpDetails" Type="Self.GpDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Basic">
+              <PropertyRef Name="PasNumber" />
+            </Principal>
+            <Dependent Role="GpDetails">
+              <PropertyRef Name="PatientPasNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NextOfKin_Basic">
+          <End Role="Basic" Type="Self.Basic" Multiplicity="1" />
+          <End Role="NextOfKin" Type="Self.NextOfKin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Basic">
+              <PropertyRef Name="PasNumber" />
+            </Principal>
+            <Dependent Role="NextOfKin">
+              <PropertyRef Name="PatientPasNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PatientsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Basics" EntityType="Self.Basic" />
+          <EntitySet Name="GpDetails" EntityType="Self.GpDetail" />
+          <EntitySet Name="NextOfKins" EntityType="Self.NextOfKin" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_GpDetails_Basic" Association="Self.FK_GpDetails_Basic">
+            <End Role="Basic" EntitySet="Basics" />
+            <End Role="GpDetails" EntitySet="GpDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NextOfKin_Basic" Association="Self.FK_NextOfKin_Basic">
+            <End Role="Basic" EntitySet="Basics" />
+            <End Role="NextOfKin" EntitySet="NextOfKins" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PatientsModelStoreContainer" CdmEntityContainer="PatientsEntities">
+          <EntitySetMapping Name="Basics">
+            <EntityTypeMapping TypeName="PatientsModel.Basic">
+              <MappingFragment StoreEntitySet="Basic">
+                <ScalarProperty Name="PasNumber" ColumnName="PasNumber" />
+                <ScalarProperty Name="Forenames" ColumnName="Forenames" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="SexCode" ColumnName="SexCode" />
+                <ScalarProperty Name="HomeTelephoneNumber" ColumnName="HomeTelephoneNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GpDetails">
+            <EntityTypeMapping TypeName="PatientsModel.GpDetail">
+              <MappingFragment StoreEntitySet="GpDetails">
+                <ScalarProperty Name="PatientPasNumber" ColumnName="PatientPasNumber" />
+                <ScalarProperty Name="GpCode" ColumnName="GpCode" />
+                <ScalarProperty Name="GpSurname" ColumnName="GpSurname" />
+                <ScalarProperty Name="GpInitials" ColumnName="GpInitials" />
+                <ScalarProperty Name="GpPhone" ColumnName="GpPhone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NextOfKins">
+            <EntityTypeMapping TypeName="PatientsModel.NextOfKin">
+              <MappingFragment StoreEntitySet="NextOfKin">
+                <ScalarProperty Name="PatientPasNumber" ColumnName="PatientPasNumber" />
+                <ScalarProperty Name="NokName" ColumnName="NokName" />
+                <ScalarProperty Name="NokRelationshipCode" ColumnName="NokRelationshipCode" />
+                <ScalarProperty Name="NokAddressLine1" ColumnName="NokAddressLine1" />
+                <ScalarProperty Name="NokAddressLine2" ColumnName="NokAddressLine2" />
+                <ScalarProperty Name="NokAddressLine3" ColumnName="NokAddressLine3" />
+                <ScalarProperty Name="NokAddressLine4" ColumnName="NokAddressLine4" />
+                <ScalarProperty Name="NokPostcode" ColumnName="NokPostcode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="PatientsModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
